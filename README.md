@@ -60,11 +60,8 @@ Composio serves as the **managed toolkit layer** that significantly simplifies a
 ![Composio Value Proposition](assets/composio_value_proposition.png)
 
 **🔐 Authentication Made Simple**
-```python
-# Without Composio: Complex OAuth flows, token management, refresh logic
-# With Composio: One line of code
-composio_client.toolkits.authorize(user_id=user_id, toolkit="GMAIL")
-```
+- Without Composio: Complex OAuth flows, token management, refresh logic
+- With Composio: Just a few lines of [code](./simple_gmail_agent/connection.py)
 
 **🛠️ Pre-built Integrations**
 - Instead of building Gmail API wrappers from scratch, get production-ready tools instantly
@@ -108,6 +105,7 @@ result = composio_client.provider.handle_tool_calls(response=response, user_id=u
        print(f"Please visit: {connection_request.redirect_url}")
        connection_request.wait_for_connection()  # Wait for user to complete OAuth
    ```
+   **NOTE**: This code is for demonstration purposes, check [connection](./simple_gmail_agent/connection.py) module for more details on how create and manage connections for users
 
 3. **Request Processing**: User sends a natural language request
 
