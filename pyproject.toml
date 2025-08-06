@@ -1,0 +1,18 @@
+[project]
+name = "simple-gmail-agent"
+version = "0.1.0"
+description = "Composio Gmail Agent"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "composio>=0.8.7",
+    "composio-openai>=0.8.2",
+    "fastapi>=0.116.1",
+    "openai>=1.97.1",
+    "python-dotenv>=1.1.1",
+    "uvicorn>=0.35.0",
+]
+
+
+[tool.setuptools]
+package-dir = { simple_gmail_agent = "simple_gmail_agent" }
