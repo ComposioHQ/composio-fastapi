@@ -40,38 +40,4 @@ class FetchEmailsRequest(BaseModel):
         description="The limit of emails to fetch.",
     )
 
-class SendEmailRequest(BaseModel):
-    user_id: str = Field(
-        ...,
-        description="The user id of the user to send an email for.",
-    )
-    email_recipient: str = Field(
-        ...,
-        description="The recipient of the email.",
-    )
-    email_subject: str = Field(
-        ...,
-        description="The subject of the email.",
-    )
-    email_body: str = Field(
-        ...,
-        description="The body of the email.",
-    )
 
-class CreateEmailDraftRequest(BaseModel):
-    user_id: str = Field(
-        ...,
-        description="The user id of the user to create an email draft for.",
-    )
-    email_recipient: str = Field(
-        ...,
-        description="The recipient of the email.",
-    )
-    email_subject: str = Field(
-        ...,
-        description="The subject of the email.",
-    )
-    email_body: str = Field(
-        ...,
-        description="The body of the email.",
-    )

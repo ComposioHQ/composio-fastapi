@@ -45,10 +45,15 @@ def fetch_auth_config(composio_client: Composio[OpenAIProvider]):
     # Fetch all auth configs for the project
     auth_configs = composio_client.auth_configs.list()
 
+    # Filter out composio managed auth configs
     for auth_config in auth_configs.items:
+        if auth_config.is_composio_managed and ENVIRONMENT != "development":
+            continue
+
         # Check if the auth config is for the gmail toolkit
         if auth_config.toolkit == GMAIL_TOOLKIT:
             return auth_config
+
     return None
 
 
