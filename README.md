@@ -1,6 +1,6 @@
 # Building an AI agent with Composio and FastAPI
 
-In this guide you will learn how to build a Gmail Agent powered by `Composio`. The agent will be 
+In this guide you will learn how to build a Gmail Agent powered by `Composio`. The agent will be able to perform all the gmail actions mentioned [here](https://docs.composio.dev/toolkits/gmail#tool-list).
 
 ## Features
 
