@@ -16,32 +16,31 @@ In this guide you will learn how to build a **Gmail Agent** powered by **Composi
 
 ## Setup
 
-1. Clone the Repository
-First, clone the repository to your local machine:
+**1. Clone the Repository**
 
 ```bash
 git clone git@github.com:composiohq/composio-fastapi
 cd composio-fastapi/
 ```
 
-2. Setup Environment
-Copy the example .env file to create your own .env file:
+**2. Setup Environment Variables**
+
+Copy the example .env file to create your own:
 
 ```bash
 cp .env.example .env
 ```
 
-3. Fill in the necessary API keys:
+**3. Fill in the necessary API keys:**
 
 ```dotenv
 COMPOSIO_API_KEY=your-composio-api-key
 OPENAI_API_KEY=your-openai-api-key
 ```
 
-4. Create the virtual environment and activate it:
+**4. Create the virtual environment and activate it:**
 
 ```bash
-Copy
 make env
 source .venv/bin/activate
 ```
