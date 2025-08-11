@@ -1,17 +1,18 @@
-# Build a simple gmail agent with Composio and FastAPI
+# Building an AI agent with Composio and FastAPI
 
-With Composio's managed authentication and tool calling, it's easy to build the AI agents that can interact with the real world while reducing the boilerplate required to setup and manage the authentication. This cookbook will walk you through the process of building and serving agents using `Composio`, `OpenAI` and `FastAPI`.
+In this guide you will learn how to build a Gmail Agent powered by `Composio`. The agent will be 
 
+## Features
 
-## Requirements
+* Composio comes with built in support for gmail authentication and actions(and [300+ more apps](https://docs.composio.dev/toolkits/introduction))
+* Integrates with providers like OpenAI, Anthropic, LangChain, Vercel AI SDK, and [more](https://docs.composio.dev/providers/openai)
+
+## Prerequisites
 
 * Python3.x
 * [UV](https://docs.astral.sh/uv/getting-started/installation/)
-* Composio API key
-* OpenAI API key
-* Basic knowledge of OAuth
-* Understanding of building HTTP services (preferably using FastAPI)
-
+* [Composio](https://platform.composio.dev/auth) API key
+* [OpenAI API key](https://platform.openai.com/api-keys)
 
 ## Building an AI agent that can interact with `gmail` service
 
@@ -287,14 +288,6 @@ So far, we have created an agent with ability to interact with `gmail` using the
    uvicorn simple_gmail_agent.server.api:create_app --factory
    ```
 
-## Using Composio for managed auth and tools
-
-Composio reduces a lot of boilerplate for building AI agents with ability access and use a wide variety of apps. For example in this cookbook, to build `gmail` integration without composio you would have to write code to
-- manage `gmail` oauth app
-- manage user connections
-- tools for your agents to interact with `gmail`
-
-Using composio simplifies all of the above to a few lines of code as we've seen the cookbook.
 
 ## Best practices
 
