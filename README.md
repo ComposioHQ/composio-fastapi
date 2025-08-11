@@ -4,18 +4,17 @@ In this guide you will learn how to build a **Gmail Agent** powered by **Composi
 
 ## Features
 
-* Composio comes with built in support for gmail authentication and actions(and [300+ more apps](https://docs.composio.dev/toolkits/introduction))
-* Integrates with providers like OpenAI, Anthropic, LangChain, Vercel AI SDK, and [more](https://docs.composio.dev/providers/openai)
+* Composio comes with built in support for gmail authentication and actions (and [300+ more apps](https://docs.composio.dev/toolkits/introduction))
+* Easily use any providers like **OpenAI**, **Anthropic**, **LangChain**, **Vercel AI SDK**, and [more](https://docs.composio.dev/providers/openai).
 
 ## Prerequisites
 
 * Python3.x
 * [UV](https://docs.astral.sh/uv/getting-started/installation/)
-* [Composio](https://platform.composio.dev/auth) API key
+* [Composio](https://platform.composio.dev/auth) API key - Sign up here and navigate to **Settings** in your project dashboard.
 * [OpenAI API key](https://platform.openai.com/api-keys)
 
 ## Setup 
-
 
 
 ## Building an AI agent that can interact with `gmail`
