@@ -130,7 +130,7 @@ def create_auth_config(composio_client: Composio[OpenAIProvider]):
 
 ## Authenticating users
 
-### Fetch the Authentication Config
+### Fetch the Auth Config
 
 The following function fetches the auth config for the Gmail toolkit:
 
@@ -149,9 +149,9 @@ def fetch_auth_config(composio_client: Composio[OpenAIProvider]):
     return None
 ```
 
-### Connecting Users to Gmail
+### Creating a connected account for the Auth Config
 
-To authenticate users, you need to create a connection for them using the auth config you just fetched. This is done through the Composio connected accounts API. 
+To authenticate users, you need to initiate a connection for them using the auth config you just fetched. This is done through the Composio connected accounts API. 
 
 ```python
 from fastapi import FastAPI
@@ -193,14 +193,15 @@ def _create_connection(
     }
 ```
 
-From your client app, call this endpoint to obtain the **redirect URL** for user authentication.
+
+** From your client app, call this endpoint to obtain the **redirect URL** for user authentication. **
 
 
 ## Setup Composio SDK client
 
 In this section, we will set up a singleton **Composio SDK** client.
 
-FastAPI allows [dependency injection](https://fastapi.tiangolo.com/reference/dependencies/) to simplify the usage of SDK clients which are required to be singletons. We also recommend you to use the composio SDK client as a singleton. 
+We recommend you to use the composio SDK client as a singleton. FastAPI allows [dependency injection](https://fastapi.tiangolo.com/reference/dependencies/) to simplify the usage of SDK clients which are required to be singletons. 
 
 ```python
 import os
@@ -234,7 +235,7 @@ A Composio client dependency.
 
 ## Invoke the agent via FastAPI
 
-When invoking an agent, make sure you validate the `user_id`.
+When invoking the agent, make sure to validate the `user_id` to ensure that the request is tied to an authenticated user.
 
 ```python
 def check_connected_account_exists(
@@ -244,7 +245,7 @@ def check_connected_account_exists(
     """
     Check if a connected account exists for a given user id.
     """
-    # Fetch all connected accounts for the user
+    # Fetch all connected accounts for the user 
     connected_accounts = composio_client.connected_accounts.list(user_ids=[user_id])
 
     # Check if there's an active connected account
@@ -252,13 +253,15 @@ def check_connected_account_exists(
         if account.status == "ACTIVE":
             return True
 
-        # Ideally you should not have inactive accounts, but if you do, you should delete them
+        # Warning for inactive accounts, ideally delete them if found
         print(f"[warning] inactive account {account.id} found for user id: {user_id}")
     return False
 
 def validate_user_id(user_id: str, composio_client: ComposioClient):
     """
     Validate the user id, if no connected account is found, create a new connection.
+
+    Raises an HTTPException if no connected account exists for the user.
     """
     if check_connected_account_exists(composio_client=composio_client, user_id=user_id):
         return user_id
@@ -267,20 +270,20 @@ def validate_user_id(user_id: str, composio_client: ComposioClient):
         status_code=404, detail={"error": "No connected account found for the user id"}
     )
 
-# Endpoint: Run the Gmail agent for a given user id and prompt
+# Endpoint: Run the Gmail agent for a given user ID and prompt
 @app.post("/agent")
 def _run_gmail_agent(
     request: RunGmailAgentRequest,
-    composio_client: ComposioClient,
-    openai_client: OpenAIClient,  # OpenAI client will be injected as dependency
+    composio_client: ComposioClient, # Injected Composio client
+    openai_client: OpenAIClient,  # Injected OpenAI client for generating responses
 ) -> List[ToolExecutionResponse]:
     """
     Run the Gmail agent for a given user id and prompt.
     """
-    # For demonstration, using a default user_id. Replace with real user logic in production.
+    # For demonstration, we are using a default user_id. Replace this with actual user ID value in production
     user_id = "default"
 
-    # Validate the user id before proceeding
+    # Validate the user ID before invoking the agent
     user_id = validate_user_id(user_id=user_id, composio_client=composio_client)
 
     # Run the Gmail agent using Composio and OpenAI
@@ -297,9 +300,9 @@ def _run_gmail_agent(
 
 ## Running the service
 
-So far, we have created an agent with ability to interact with `gmail` using the `composio` SDK, functions to manage connected accounts for users and a FastAPI service. Now let's run the service.
+We've built an agent that interacts with Gmail using the Composio toolkit, handles connected user accounts. Now, let's run the service.
 
-> Before you proceed check the [code](./simple_gmail_agent/server/api.py), there are some utility endpoints that we have not discussed in the cookbook.
+> For additional utility endpoints, check the code.
 
 Run the HTTP server
    ```bash
@@ -310,26 +313,24 @@ Run the HTTP server
 ## Best practices
 
 **🎯 Effective Prompts**:
-- Be specific: "Send email to john@company.com about tomorrow's 2pm meeting" works better than "send email"
-- Include context: "Reply to Sarah's email about the budget with our approval"
-- Use natural language: The agent understands conversational requests
+- Be specific: "Send email to john@company.com about tomorrow's 2pm meeting" is clearer than "send email"
+- Provide useful context: "Reply to Sarah's email about the budget with our approval"
 
 **🔒 User Management**:
-- Use unique, consistent `user_id` values for each person
-- Each user maintains their own Gmail connection
-- User IDs can be email addresses, usernames, or any unique identifier
-
+- Use unique, consistent `user_id` for each person.
+- Ensure each user has their own Gmail connected account.
+- Keep user_id consistent across requests.
 
 ## Troubleshooting
 
 **Connection Issues**:
-- Ensure your `.env` file has valid `COMPOSIO_API_KEY` and `OPENAI_API_KEY`
-- Check that the user has completed Gmail authorization
-- Verify the user_id matches exactly between requests
+- Verify your `.env` file has valid `COMPOSIO_API_KEY` and `OPENAI_API_KEY`
+- Verify that the user has completed Gmail authorization
+- Verify that the user_id matches between requests
 
 **API Errors**:
-- Check the server logs for detailed error messages
-- Ensure request payloads match the expected format
+- Check server logs for detailed error messages
+- Ensure request payloads follow the expected format.
 - Visit `/docs` endpoint for API schema validation
 
 **Gmail API Limits**:
