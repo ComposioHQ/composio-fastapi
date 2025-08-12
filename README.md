@@ -5,7 +5,7 @@ In this guide you will learn how to build a **Gmail Agent** powered by **Composi
 ## Features
 
 * Composio comes with built in support for gmail authentication and actions (and [300+ more apps](https://docs.composio.dev/toolkits/introduction))
-* Easily use any providers like **OpenAI**, **Anthropic**, **LangChain**, **Vercel AI SDK**, and [more](https://docs.composio.dev/providers/openai).
+* You can easily use any providers like **OpenAI**, **Anthropic**, **LangChain**, **Vercel AI SDK**, and [more](https://docs.composio.dev/providers/openai).
 
 ## Prerequisites
 
