@@ -199,8 +199,6 @@ def _create_connection(
 
 ## Setup Composio SDK client
 
-In this section, we will set up a singleton **Composio SDK** client.
-
 We recommend you to use the composio SDK client as a singleton. FastAPI allows [dependency injection](https://fastapi.tiangolo.com/reference/dependencies/) to simplify the usage of SDK clients which are required to be singletons. 
 
 ```python
