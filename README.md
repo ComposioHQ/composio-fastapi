@@ -4,7 +4,7 @@ In this guide you will learn how to build a **Gmail Agent** powered by **Composi
 
 ## Features
 
-* Composio comes with built in support for gmail authentication and actions (and [300+ more apps](https://docs.composio.dev/toolkits/introduction))
+* Composio comes with built in support for gmail authentication and actions (and [300+ more toolkits](https://docs.composio.dev/toolkits/introduction))
 * You can easily use any providers like **OpenAI**, **Anthropic**, **LangChain**, **Vercel AI SDK**, and [more](https://docs.composio.dev/providers/openai).
 
 ## Prerequisites
@@ -124,15 +124,15 @@ def create_auth_config(composio_client: Composio[OpenAIProvider]):
 ```
 
 
-> **NOTE**: 
-1. "One Authentication Config Per Project": Ideally, you only need to create one authentication config per project. Before creating a new one, check for an existing auth config in your project.
-2. "Composio's Managed Authentication": Composio platform provides native managed authentication to help you fast-track your development. You can use these default auth configs for development. For production, always use your own OAuth app configuration to ensure secure and scalable authentication.
+> **NOTE**:
+> 1. "One Authentication Config Per Project": Ideally, you only need to create one authentication config per project. Before creating a new one, check for an existing auth config in your project.
+> 2. "Composio's Managed Authentication": Composio platform provides native managed authentication to help you fast-track your development. You can use these default auth configs for development. For production, always use your own OAuth app configuration to ensure secure and scalable authentication.
 
 ## Authenticating users
 
 ### Fetch the Auth Config
 
-The following function fetches the auth config for the Gmail toolkit:
+The following function fetches the auth config for the **Gmail** toolkit:
 
 ```python
 def fetch_auth_config(composio_client: Composio[OpenAIProvider]):
@@ -194,7 +194,7 @@ def _create_connection(
 ```
 
 
-** From your client app, call this endpoint to obtain the **redirect URL** for user authentication. **
+**From your client app, call this endpoint to obtain the **redirect URL** for user authentication.**
 
 
 ## Setup Composio SDK client
@@ -300,7 +300,7 @@ def _run_gmail_agent(
 
 We've built an agent that interacts with Gmail using the Composio toolkit, handles connected user accounts. Now, let's run the service.
 
-> For additional utility endpoints, check the code.
+> For additional utility endpoints not discussed here, check the [code](./simple_gmail_agent/server/api.py)
 
 Run the HTTP server
    ```bash
