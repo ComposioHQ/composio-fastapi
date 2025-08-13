@@ -1,6 +1,6 @@
-# Build a simple gmail agent with Composio and FastAPI
+# Build a simple Gmail agent with Composio and FastAPI
 
-With Composio's managed authentication and tool calling, it's easy to build the AI agents that can interact with the real world while reducing the boilerplate required to setup and manage the authentication. This cookbook will walk you through the process of building and serving agents using `Composio`, `OpenAI` and `FastAPI`.
+With Composio's managed authentication and tool calling, it's easy to build AI agents that interact with the real world while reducing boilerplate for setup and authentication management. This cookbook will guide you through building and serving agents using `Composio`, `OpenAI`, and `FastAPI`.
 
 
 ## Requirements
@@ -26,13 +26,13 @@ from composio_openai import OpenAIProvider
 def run_gmail_agent(
     composio_client: Composio[OpenAIProvider],
     openai_client: OpenAI,
-    user_id: str,  # User ID is what composio uses to store and access user level authentication tokens
+    user_id: str,  # Composio uses the User ID to store and access user-level authentication tokens.
     prompt: str,
 ):
     """
     Run the Gmail agent using composio and openai clients.
     """
-    # Step 1: Fetch the list of necessary Gmail tools with Composio
+    # Step 1: Fetch the necessary Gmail tools list with Composio
     tools = composio_client.tools.get(
         user_id=user_id,
         tools=[
@@ -54,15 +54,17 @@ def run_gmail_agent(
     return result
 ```
 
-> **NOTE**: This is a very simple agent without any state management and agentic loop implementation, so the agent won't be able to perform very complicated tasks. If you want to understand how composio can be used with agentic loops, check other cookbooks with more agentic frameworks.
+> **NOTE**: This is a simple agent without state management and agentic loop implementation, so the agent can't perform complicated tasks. If you want to understand how composio can be used with agentic loops, check other cookbooks with more agentic frameworks.
 
-Now, to invoke this agent you need to authenticate your users with Composio's managed authentication service.
+To invoke this agent, authenticate your users with Composio's managed authentication service.
 
 ## Authenticating users
 
 <!-- TODO: redirect them to dashboard and remove complexity -->
 
-To authenticate your users with Composio you need an authentication config for the given app, Nn this case you need one for gmail. To create an authentication config for `gmail` you need `client_id` and `client_secret` from your [Google OAuth Console](https://developers.google.com/identity/protocols/oauth2). Once you have the required credentials you can use the following piece of code to set up authentication for `gmail`.
+To authenticate your users with Composio you need an authentication config for the given app, In this case you need one for gmail. 
+
+To create an authentication config for `gmail` you need `client_id` and `client_secret` from your [Google OAuth Console](https://developers.google.com/identity/protocols/oauth2). Once you have the credentials, use the following piece of code to set up authentication for `gmail`.
 
 ```python
 from composio import Composio
@@ -91,7 +93,7 @@ def create_auth_config(composio_client: Composio[OpenAIProvider]):
     )
 ```
 
-This will create an authencation config for `gmail` which you can use to authenticate your users for your app. Ideally you should just create one authentication object per project, so check for an existing auth config before you create a new one.
+This will create a Gmail authentication config to authenticate your app’s users. Ideally, create one authentication object per project, so check for an existing auth config before creating a new one.
 
 ```python
 def fetch_auth_config(composio_client: Composio[OpenAIProvider]):
@@ -106,9 +108,9 @@ def fetch_auth_config(composio_client: Composio[OpenAIProvider]):
     return None
 ```
 
-> **NOTE**: Composio platform provides composio managed authentication for some apps to help you fast-track your development, `gmail` being one of them. You can use these default auth configs for development, but for production you should always use your own oauth app configuration.
+> **NOTE**: Composio platform provides composio managed authentication for some apps to fast-track your development, `gmail` being one of them. You can use these default auth configs for development, but for production, always use your own oauth app configuration.
 
-Once you have authentication management in place, we can start with connecting your users to your `gmail` app. Let's implement a function to connect the users to your `gmail` app via composio.
+Once you have authentication management in place, we can start with connecting your users to your `gmail` app. Let's implement a function to connect users to your `gmail` app via composio.
 
 ```python
 from fastapi import FastAPI
@@ -132,7 +134,7 @@ def create_connection(composio_client: Composio[OpenAIProvider], user_id: str):
 # Setup FastAPI
 app = FastAPI()
 
-# Endpoint for initiating a connection
+# Connection initiation endpoint
 @app.post("/connection/create")
 def _create_connection(
     request: CreateConnectionRequest,
@@ -152,15 +154,15 @@ def _create_connection(
     }
 ```
 
-Now, on your client app you can make a request to this endpoint and your user will get a URL which they can use to authenticate.
+Now, you can make a request to this endpoint on your client app, and your user will get a URL which they can use to authenticate.
 
 ## Set Up FastAPI service
 
-We will use [`FastApi`](https://fastapi.tiangolo.com/) to build an HTTP service that authenticates your users and let's them interact with your agent. This guide will also provide you with the best practices for using composio client in production environments.
+We will use [`FastApi`](https://fastapi.tiangolo.com/) to build an HTTP service that authenticates your users and lets them interact with your agent. This guide will provide best practices for using composio client in production environments.
 
 ### Setup dependencies
 
-FastAPI allows [dependency injection](https://fastapi.tiangolo.com/reference/dependencies/) to simplify the usage of SDK clients which are required to be singletons. We also recommend you to use `composio` SDK client as singleton.
+FastAPI allows [dependency injection](https://fastapi.tiangolo.com/reference/dependencies/) to simplify the usage of SDK clients that must be singletons. We recommend using composio SDK client as singleton.
 
 ```python
 import os
@@ -211,7 +213,7 @@ def check_connected_account_exists(
         if account.status == "ACTIVE":
             return True
 
-        # Ideally you should not have inactive accounts, but if you do, you should delete them
+        # Ideally you should not have inactive accounts, but if you do, delete them.
         print(f"[warning] inactive account {account.id} found for user id: {user_id}")
     return False
 
@@ -258,7 +260,7 @@ def _run_gmail_agent(
 
 So far, we have created an agent with ability to interact with `gmail` using the `composio` SDK, functions to manage connected accounts for users and a FastAPI service. Now let's run the service.
 
-> Before you proceed check the [code](./simple_gmail_agent/server/api.py), there are some utility endpoints that we have not discussed in the cookbook.
+> Before proceeding, check the [code](./simple_gmail_agent/server/api.py) for utility endpoints not discussed in the cookbook
 
 
 1. Clone the repository
@@ -289,12 +291,13 @@ So far, we have created an agent with ability to interact with `gmail` using the
 
 ## Using Composio for managed auth and tools
 
-Composio reduces a lot of boilerplate for building AI agents with ability access and use a wide variety of apps. For example in this cookbook, to build `gmail` integration without composio you would have to write code to
-- manage `gmail` oauth app
-- manage user connections
-- tools for your agents to interact with `gmail`
+Composio reduces boilerplate for building AI agents that access and use various apps. In this cookbook, to build Gmail integration without Composio, you would have to write code to
 
-Using composio simplifies all of the above to a few lines of code as we've seen the cookbook.
+- manage Gmail OAuth app
+- manage user connections
+- tools for your agents to interact with Gmail
+
+Using Composio simplifies all of the above to a few lines of code as shown in the cookbook.
 
 ## Best practices
 
@@ -313,7 +316,7 @@ Using composio simplifies all of the above to a few lines of code as we've seen 
 
 **Connection Issues**:
 - Ensure your `.env` file has valid `COMPOSIO_API_KEY` and `OPENAI_API_KEY`
-- Check that the user has completed Gmail authorization
+- Check if the user has completed Gmail authorization.
 - Verify the user_id matches exactly between requests
 
 **API Errors**:
@@ -324,3 +327,58 @@ Using composio simplifies all of the above to a few lines of code as we've seen 
 **Gmail API Limits**:
 - Gmail has rate limits; the agent will handle these gracefully
 - For high-volume usage, consider implementing request queuing
+
+## Testing the API with curl
+
+Assuming the server is running locally on `http://localhost:8000`.
+
+### Check if a connection exists
+```bash
+curl -X POST http://localhost:8000/connection/exists
+```
+
+### Create a connection
+Note: The body fields are required by the API schema, but are ignored internally in this example service.
+```bash
+curl -X POST http://localhost:8000/connection/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "default",
+    "auth_config_id": "AUTH_CONFIG_ID_FOR_GMAIL_FROM_THE_COMPOSIO_DASHBOARD"
+  }'
+```
+Response includes `connection_id` and `redirect_url`. Complete the OAuth flow at the `redirect_url`.
+
+### Check connection status
+Use the `connection_id` returned from the create step.
+```bash
+curl -X POST http://localhost:8000/connection/status \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "default",
+    "connection_id": "CONNECTION_ID_FROM_CREATE_RESPONSE"
+  }'
+```
+
+### Run the Gmail agent
+Requires an active connected account for the `default` user.
+```bash
+curl -X POST http://localhost:8000/agent \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "default",
+    "prompt": "Summarize my latest unread emails from the last 24 hours."
+  }'
+```
+
+### Fetch emails (direct action)
+```bash
+curl -X POST http://localhost:8000/actions/fetch_emails \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "default",
+    "limit": 5
+  }'
+```
+
+These examples are intended solely for testing purposes.
