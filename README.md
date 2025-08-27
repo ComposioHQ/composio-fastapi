@@ -3,7 +3,7 @@
 With Composio's managed authentication and tool calling, it's easy to build AI agents that interact with the real world while reducing boilerplate for setup and authentication management. This cookbook will guide you through building and serving agents using `Composio`, `OpenAI`, and `FastAPI`.
 
 
-## Requirements
+## Prerequisites
 
 * Python3.x
 * [UV](https://docs.astral.sh/uv/getting-started/installation/)
@@ -15,7 +15,7 @@ With Composio's managed authentication and tool calling, it's easy to build AI a
 
 ## Building an AI agent that can interact with `gmail` service
 
-First, let's start with building a simple AI agent embedded with tools from Composio that let's the agent interact with the `gmail` service.
+Let's start with building a simple AI agent embedded with tools from Composio that let's the agent interact with the `gmail` service.
 
 ```python
 from openai import OpenAI
@@ -62,9 +62,7 @@ To invoke this agent, authenticate your users with Composio's managed authentica
 
 <!-- TODO: redirect them to dashboard and remove complexity -->
 
-To authenticate your users with Composio you need an authentication config for the given app, In this case you need one for gmail. 
-
-To create an authentication config for `gmail` you need `client_id` and `client_secret` from your [Google OAuth Console](https://developers.google.com/identity/protocols/oauth2). Once you have the credentials, use the following piece of code to set up authentication for `gmail`.
+To authenticate your users with Composio you need an authentication config for the given app, In this case you need one for gmail. To create an authentication config for `gmail` you need `client_id` and `client_secret` from your [Google OAuth Console](https://developers.google.com/identity/protocols/oauth2). Once you have the required credentials you can use the following piece of code to set up authentication for `gmail`.
 
 ```python
 from composio import Composio
@@ -80,7 +78,7 @@ def create_auth_config(composio_client: Composio[OpenAIProvider]):
         raise ValueError("GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET must be set")
 
     return composio_client.auth_configs.create(
-        toolkit="GMAIL,
+        toolkit="GMAIL",
         options={
             "name": "default_gmail_auth_config",
             "type": "use_custom_auth",
